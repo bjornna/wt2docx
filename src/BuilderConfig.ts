@@ -53,7 +53,7 @@ const defaultConfig: Config = {
   inFileDir: './templates',
   exportFormat: ExportFormat.adoc,
   defaultLang: 'en',
-  regenerateWtx: WtxRegenerate.whenStale
+  regenerateWtx: WtxRegenerate.never
 
 };
 
@@ -64,6 +64,7 @@ const defaultConfig: Config = {
      return { ...defaultConfig, ...localConfig } ;
    }
    else
+     console.log(`Config file at ${path} not found - using internal default settings. `)
      return defaultConfig;
  }
 

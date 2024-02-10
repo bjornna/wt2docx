@@ -1,5 +1,5 @@
 import { DocBuilder } from "../DocBuilder";
-import fs from "fs";
+import fs from "fs-extra";
 import { findParentNodeId, TemplateNode,  TemplateInput } from "../TemplateNodes";
 import { formatOccurrences, isAnyChoice, isDisplayableNode, mapRmTypeText} from "../TemplateTypes";
 import { formatAnnotations, formatOccurrencesText } from './DocFormatter';
@@ -30,8 +30,9 @@ export const adoc = {
   },
 
   saveFile: async (dBuilder: DocBuilder, outFile: string) => {
-    fs.writeFileSync(outFile, dBuilder.toString());
-    console.log(`\n Exported : ${outFile}`)
+    fs.outputFileSync(outFile, dBuilder.toString());
+
+    console.log(`\n Exported file: ${outFile}`)
   },
 
   formatNodeHeader: (dBuilder: DocBuilder) => {

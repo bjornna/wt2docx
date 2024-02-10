@@ -85,7 +85,6 @@ export class DocBuilder {
 
       const fExt:string = ext === 'wtx'?'wtx.json': ext;
       const pathSeg = path.parse(infile);
-
       return  `${outDir}/${pathSeg.name}.${fExt}`;
     }
   }
@@ -100,7 +99,7 @@ export class DocBuilder {
   private async generate() {
 
     this.resolvedTemplateFiles = resolveTemplateFiles(this.config)
-    console.log('resolvedTemplateFiles', this.resolvedTemplateFiles)
+//    console.log('resolvedTemplateFiles', this.resolvedTemplateFiles)
     formatTemplateHeader(this)
     await this.walk(this._wt.tree);
     formatProvenanceTable(this)

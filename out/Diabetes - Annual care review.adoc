@@ -1,0 +1,439 @@
+== Template: Diabetes Annual review
+
+
+Template Id: **Diabetes - Annual care review**
+
+
+Version: **4.2.0**
+
+
+Created: **Sat Feb 10 2024**
+
+
+=== Composition: *Diabetes Annual review*
+
+
+Interaction, contact or care event between a subject of care and healthcare provider(s).
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **composer** + 
+ Type: `Party` (_mandatory_) | The person primarily responsible for the content of the Composition (but not necessarily its committal into the EHR system). This is the identifier which should appear on the screen. It may or may not be the person who entered the data. When it is the patient, the special self instance of `PARTY_SELF` will be used. 
+|
+|====
+==== Composition context
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **start_time** + 
+ Type: `Date/time` (_mandatory_) | Start time of the clinical session or other kind of event during which a provider performs a service of any kind for the patient. 
+|
+| **setting** + 
+ Type: `Coded text` (_mandatory_) | The setting in which the clinical session took place. Coded using the openEHR Terminology, setting group. 
+a|
+|====
+===  *Body mass metrics*
+
+
+A generic section header which should be renamed in a template to suit a specific clinical context.
+
+
+===  *Height*
+
+
+Height, or body length, is measured from crown of head to sole of foot.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Height** + 
+ Type: `Quantity` (_mandatory_) | The length of the body from crown of head to sole of foot. 
+a|
+
+Valid units: +
+
+* cm
+* [in_i]
+|====
+===  *Weight*
+
+
+Measurement of the body weight of an individual.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Weight** + 
+ Type: `Quantity` (_mandatory_) | The weight of the individual. 
+a|
+
+Valid units: +
+
+* kg
+* [lb_av]
+* g
+|====
+===  *Body mass index*
+
+
+Calculated measurement which compares a person's weight and height.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Body mass index** + 
+ Type: `Quantity` (_mandatory_) | Index describing ratio of weight to height. 
+a|
+
+Valid units: +
+
+* kg/m2
+* [lb_av]/[in_i]2
+|====
+===  *Cardiovascular*
+
+
+A generic section header which should be renamed in a template to suit a specific clinical context.
+
+
+===  *Standing BP*
+
+
+The local measurement of arterial blood pressure which is a surrogate for arterial pressure in the systemic circulation.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Systolic** + 
+ Type: `Quantity`  | Peak systemic arterial blood pressure  - measured in systolic or contraction phase of the heart cycle. 
+a|
+
+Valid units: +
+
+* mm[Hg]
+| **Diastolic** + 
+ Type: `Quantity`  | Minimum systemic arterial blood pressure - measured in the diastolic or relaxation phase of the heart cycle. 
+a|
+
+Valid units: +
+
+* mm[Hg]
+| **Position** + 
+ Type: `Coded text`  | The position of the individual at the time of measurement. 
+a|
+
+* Standing
+|====
+===  *Pulse rate*
+
+
+The rate and associated attributes for a pulse or heart beat.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Rate** + 
+ Type: `Quantity`  | The rate of the pulse or heart beat, measured in beats per minute. 
+a|
+
+Valid units: +
+
+* /min
+|====
+===  *Sitting / lying BP*
+
+
+The local measurement of arterial blood pressure which is a surrogate for arterial pressure in the systemic circulation.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Systolic** + 
+ Type: `Quantity`  | Peak systemic arterial blood pressure  - measured in systolic or contraction phase of the heart cycle. 
+a|
+
+Valid units: +
+
+* mm[Hg]
+| **Diastolic** + 
+ Type: `Quantity`  | Minimum systemic arterial blood pressure - measured in the diastolic or relaxation phase of the heart cycle. 
+a|
+
+Valid units: +
+
+* mm[Hg]
+| **Position** + 
+ Type: `Coded text`  | The position of the individual at the time of measurement. 
+a|
+
+* Sitting
+* Lying
+|====
+===  *Visual Acuity*
+
+
+A generic section header which should be renamed in a template to suit a specific clinical context.
+
+
+===  *Visual acuity*
+
+
+Visual acuity is a measure of the spatial resolution of the visual processing system.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+3+a|===== Any event  **[multiple]**
+`POINT_EVENT: _at0134_`
+3+a|===== Result details  **[multiple: 2]**
+| **Eye examined** + 
+ Type: `Coded text` (_mandatory_) | The eye which is being examined. 
+a|
+
+* Left eye
+* Right eye
+3+a|===== Notation  
+| **Metric Snellen** + 
+ Type: `Proportion`  | The distance test result, recorded in Snellen format expressed in metres, where 6/6 is regarded as normal. 
+
+
+|
+3+a|===== Visual acuity status  
+| **Registered blind** + 
+ Type: `Coded text`  |  
+a|
+
+* Yes
+* No
+| **US Snellen** + 
+ Type: `Proportion`  | The distance test result, recorded as Snellen visual acuity expressed in feet, where 20/20 is regarded as normal. 
+
+
+|
+| **Attends diabetic eye screening** + 
+ Type: `Coded text`  |  
+a|
+
+* Yes
+* No
+* Not required
+| **Decimal Snellen** + 
+ Type: `Proportion`  | The distance test result,recorded as Sn ellen visual acuity expressed as a decimal ratio, where 1.0 is regarded as normal. 
+|
+| **Eye absent** + 
+ Type: `Coded text`  |  
+a|
+
+* Right eye
+* Left eye
+| **ETDRS Letters** + 
+ Type: `Count`  | Visual acuity expressed using ETDRS Letters format, with a value of 100 regarded as normal. 
+a|
+
+Range: +
+
+* >= 1 and <= 120
+| **logMar** + 
+ Type: `Quantity`  | The test result, recorded as logMar visual acuity, where a value of 0 is regarded as normal. 
+a|
+
+Valid units: +
+
+* 1
+| **Low Vision Score** + 
+ Type: `Ordinal`  | Graded scale used when patient has low levels of visual acuity. 
+a|
+* [1] NPL - No perception of light +
+ `local:at0016`
+* [2] PL -  Perception of light +
+ `local:at0017`
+* [3] HM - Hand movement +
+ `local:at0018`
+* [4] CF - Count fingers +
+ `local:at0019`
+|====
+| **Interpretation** + 
+ Type: `Text` (_multiple_) | Clinical interpretation of all results for the test eye. 
+
+
+a|
+
+* Partially sighted
+* Blind
+| **No test result** + 
+ Type: `Boolean`  | No visual acuity test result is available for the test eye. 
+
+
+|
+| **Reason for no test result** + 
+ Type: `Coded text`  | Reason why no visual acuity test result is available for the test eye. 
+
+
+a|
+
+* Absent eyeball +
+ `SNOMED-CT:246916009`
+* _Other text/ coded text allowed_
+===  *Urine assessment*
+
+
+A generic section header which should be renamed in a template to suit a specific clinical context.
+
+
+===  *Urinalysis*
+
+
+Qualitative and semi-quantitative test array using reagent test strips to indicate possible abnormalities in a sample of urine, often performed as part of Point of Care Testing (POCT).
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Glucose** + 
+ Type: `Ordinal`  | Detection of glucose in urine sample. 
+a|
+* [1] Negative +
+ `local:at0115`
+* [2] Trace +
+ `local:at0116`
+* [3] 1+ +
+ `local:at0117`
+* [4] 2+ +
+ `local:at0118`
+* [5] 3+ +
+ `local:at0119`
+* [6] 4+ +
+ `local:at0120`
+| **Ketones** + 
+ Type: `Ordinal`  | Detection of ketones in urine sample. 
+a|
+* [1] Negative +
+ `local:at0109`
+* [2] Trace +
+ `local:at0110`
+* [3] Small +
+ `local:at0111`
+* [4] Moderate +
+ `local:at0112`
+* [5] Large +
+ `local:at0113`
+* [6] Large+ +
+ `local:at0114`
+| **Time** + 
+ Type: `Date/time` (_mandatory_) |  
+|
+| **Blood** + 
+ Type: `Ordinal`  | Detection of blood in urine sample. 
+a|
+* [1] Negative +
+ `local:at0102`
+* [2] Non-haemolysed Trace +
+ `local:at0103`
+* [3] Non-haemolysed Moderate +
+ `local:at0104`
+* [4] Haemolysed Trace +
+ `local:at0105`
+* [5] 1+ +
+ `local:at0106`
+* [6] 2+ +
+ `local:at0107`
+* [7] 3+ +
+ `local:at0108`
+| **Protein** + 
+ Type: `Ordinal`  | Detection of protein in urine sample. 
+a|
+* [1] Negative +
+ `local:at0096`
+* [2] Trace +
+ `local:at0097`
+* [3] 1+ +
+ `local:at0098`
+* [4] 2+ +
+ `local:at0099`
+* [5] 3+ +
+ `local:at0100`
+* [6] 4+ +
+ `local:at0101`
+| **Nitrite** + 
+ Type: `Ordinal`  | Detection of nitrites in urine sample. 
+a|
+* [1] Negative +
+ `local:at0159`
+* [2] Positive +
+ `local:at0160`
+| **Leukocytes** + 
+ Type: `Ordinal`  | Detection of white blood cells in urine sample. 
+a|
+* [1] Negative +
+ `local:at0135`
+* [2] Trace +
+ `local:at0136`
+* [3] 1+ +
+ `local:at0137`
+* [4] 2+ +
+ `local:at0138`
+* [5] 3+ +
+ `local:at0139`
+|====
+===  *Visual certification UK*
+
+
+To record details of a formal assessment of visual impairment in the UK.
+
+
+[options="header","stretch", cols="20,50,30"]
+|====
+|Data item | Description | Allowed values
+| **Certified impairment** + 
+ Type: `Coded text`  |  
+a|
+
+* Sight not severely impaired
+* Sight impaired
+* Severely sight impaired
+| **Date assessed** + 
+ Type: `Date/time`  |  
+|
+|====
+
+
+== Archetype provenance
+[options="header","stretch", cols="33,33,33"]
+|====
+|Internal | Candidate | External
+| Internal archetypes which are not intended to be shared | Internal archetypes which are candidates for external publication| Archetypes published or managed externally
+| **Total: 0     Percent: (NaN%)** | **Total: 0     Percent: (NaN%)** | **Total: 0     Percent: (NaN%)**
+a|
+a|
+a|
+====|
