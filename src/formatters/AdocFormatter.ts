@@ -1,5 +1,5 @@
 import { DocBuilder } from "../DocBuilder";
-import fs from "fs-extra";
+import fs from "fs";
 import { findParentNodeId, TemplateNode,  TemplateInput } from "../TemplateNodes";
 import { formatOccurrences, isAnyChoice, isDisplayableNode, mapRmTypeText} from "../TemplateTypes";
 import { formatAnnotations, formatOccurrencesText } from './DocFormatter';
@@ -30,9 +30,8 @@ export const adoc = {
   },
 
   saveFile: async (dBuilder: DocBuilder, outFile: string) => {
-    fs.outputFileSync(outFile, dBuilder.toString());
-
-    console.log(`\n Exported file: ${outFile}`)
+    fs.writeFileSync(outFile, dBuilder.toString());
+    console.log(`\n Exported : ${outFile}`)
   },
 
   formatNodeHeader: (dBuilder: DocBuilder) => {
@@ -339,7 +338,10 @@ export const adoc = {
     }
 
     const calcPercent = (numerator: number) : string => {
-      return (numerator/overallTotal * 100).toFixed(1)
+      if (!numerator)
+         return ''
+      else
+        return (numerator/overallTotal * 100).toFixed(1)
     }
 
     const formatTotal = (total: number) : string => {
@@ -356,7 +358,7 @@ export const adoc = {
     sb.append(`== Archetype provenance`)
 
     sb.append('[options="header","stretch", cols="33,33,33"]');
-    sb.append('|====');
+    sb.append('|===');
     sb.append('|Internal | Candidate | External');
 
     sb.append(`| Internal archetypes which are not intended to be shared | Internal archetypes which are candidates for external publication| Archetypes published or managed externally`)
@@ -365,7 +367,7 @@ export const adoc = {
     formatList(candidateArchetypeList)
     formatList(remoteArchetypeList)
 
-    sb.append('====|');
+    sb.append('===|');
 
   },
 

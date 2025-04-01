@@ -1,30 +1,17 @@
-import fs from "fs-extra";
+import fs from "fs";
 import { parseXMindMarkToXMindFile} from "xmindmark";
 
 import { DocBuilder } from "../DocBuilder";
 import {  TemplateNode, TemplateInput } from "../TemplateNodes";
 import { formatOccurrences, isAnyChoice, mapRmTypeText } from '../TemplateTypes';
 import { formatRawOccurrencesText } from "./DocFormatter";
-
+import { extractTextInBrackets} from './FormatterUtils';
 
 const headerIndent: string = '  -';
 const eventIndent:  string = '    -';
 const nodeIndent:   string = '      -';
 const dvIndent:     string = '        -';
 
-function extractTextInBrackets(input: string): string[] {
-  // The regular expression matches text within square brackets.
-  const regex = /\[(.*?)]/g;
-  let match;
-  const matches: string[] = [];
-
-  // tslint:disable-next-line:no-conditional-assignment
-  while ((match = regex.exec(input)) !== null) {
-    matches.push(match[1]);
-  }
-
-  return matches;
-}
 export const xmind = {
 
   formatHeader: (dBuilder : DocBuilder): void => {
@@ -47,8 +34,8 @@ export const xmind = {
 
   saveFile: async (dBuilder: DocBuilder, outFile: any): Promise <void>  => {
     const xmindArrayBuffer = await parseXMindMarkToXMindFile(dBuilder.toString())
-    fs.outputFileSync('./tmp/tmp.md', dBuilder.toString(), {encoding: "utf8"});
-    fs.outputFileSync(outFile, Buffer.from(xmindArrayBuffer), {encoding: "utf8"});
+    fs.writeFileSync('./tmp/tmp.md', dBuilder.toString(), {encoding: "utf8"});
+    fs.writeFileSync(outFile, Buffer.from(xmindArrayBuffer), {encoding: "utf8"});
     console.log(`\n Exported : ${outFile}`)
   },
 

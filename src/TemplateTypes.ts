@@ -1,5 +1,4 @@
 import { TemplateNode } from './TemplateNodes';
-import { ArchetypeProvenance } from './provenance/openEProvenance';
 
 export function isEntry(rmType: string) {
   return ['OBSERVATION', 'EVALUATION', 'INSTRUCTION', 'ACTION', 'ADMIN_ENTRY', 'GENERIC_ENTRY'].includes(rmType);
@@ -21,6 +20,10 @@ export function isSection(rmType: string) {
   return ['SECTION'].includes(rmType);
 }
 
+export function isEventContext(rmType: string) {
+  return ['EVENT_CONTEXT'].includes(rmType);
+}
+
 export function isComposition(rmType: string) {
   return ['COMPOSITION'].includes(rmType);
 }
@@ -32,6 +35,10 @@ export function isCluster(rmType: string) {
 export function isDvChoice(rmType: string) {
   return ['ELEMENT'].includes(rmType);
 }
+
+export function isBranchNode(rmType:string) {
+  return isEntry(rmType) || isEventContext(rmType) || isActivity(rmType) || isEvent(rmType) || isISMTransition(rmType) || isSection(rmType) || isCluster(rmType)
+}
 export function isAnyChoice(rmType: string[]) {
   // compares the list of Choices with the whole DataValues array and sends true if all the values exist.
   const dvDataTypes: string[] = Object.keys(DvDataValues).filter(key => isNaN(+key))
@@ -42,8 +49,24 @@ export function isAnyChoice(rmType: string[]) {
 
 }
 
+export const snakeToCamel = (s: string, forceInitialCap : boolean) => {
+  if (!s) return '*undefined*'
+
+    const indexInit = forceInitialCap?-1:0
+
+  return s
+    .replace(/[_/-/(/)/[//.]/g,' ')
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =>
+      index === indexInit
+        ? letter.toLowerCase()
+        : letter.toUpperCase()
+    )
+    .replace(/\s+|[_-]/g, '')
+}
+
+
 export const isArchetype= (rmType: string, nodeId: string) => {
-  return ['COMPOSITION','OBSERVATION', 'EVALUATION', 'INSTRUCTION', 'ACTION', 'ADMIN_ENTRY', 'GENERIC_ENTRY', 'CLUSTER', 'ELEMENT'].includes(rmType)
+  return ['COMPOSITION','OBSERVATION', 'EVALUATION', 'INSTRUCTION', 'SECTION', 'ACTION', 'ADMIN_ENTRY', 'GENERIC_ENTRY', 'CLUSTER', 'ELEMENT'].includes(rmType)
          &&  nodeId.substring(0,2) !== 'at'
 }
 
@@ -60,6 +83,23 @@ export const mapRmTypeText = (rmTypeString: string) => {
   }
 
   return `${intervalPrefix}${dataValueLabelMapper(rmType)}`
+}
+
+export const mapRmType2FHIR = (rmTypeString: string) => {
+
+  // if (!isDisplayableNode(rmTypeString)) return ''
+
+  let rmType = rmTypeString
+  let intervalPrefix = ''
+
+  if (rmTypeString.startsWith('DV_INTERVAL')) {
+    intervalPrefix = "Interval of "
+    rmType = rmTypeString.replace(/(^.*<|>.*$)/g, '');
+
+    return dataValueIntervalFHIRMapper(rmType)
+  }
+
+  return `${intervalPrefix}${dataValueFHIRMapper(rmType)}`
 }
 
 export enum DvDataValues{
@@ -129,7 +169,52 @@ const displayableNodeTextTable = {
   STRING: "String"
 }
 
+export const openEHR2FHIRDatatypeTable = {
+  ELEMENT: 'Choice',
+  DV_CODED_TEXT: 'CodeableConcept',
+  DV_TEXT: 'CodeableConcept',
+  DV_ORDINAL: 'CodeableConcept',
+  DV_SCALE: 'CodeableConcept',
+  DV_QUANTITY: 'Quantity',
+  DV_DURATION: 'Duration',
+  DV_COUNT: 'Count',
+  DV_DATE_TIME: 'dateTime',
+  DV_IDENTIFIER: 'Identifier',
+  DV_MULTIMEDIA: 'Attachment',
+  DV_URI: "uri",
+  DV_EHR_URI: "uri",
+  DV_PARSABLE: "string",
+  DV_PROPORTION: "Proportion",
+  DV_STATE: "State",
+  DV_BOOLEAN: "boolean",
+  DV_DATE: "date",
+  DV_TIME: "time",
+  CODE_PHRASE: "Coding",
+  PARTY_PROXY: "BackboneElement",
+  STRING: "String",
+}
+export const openEHRInterval2FHIRTable = {
+  DV_QUANTITY: 'Range',
+  DV_DURATION: 'Duration',
+  DV_COUNT: 'Range',
+  DV_DATE_TIME: 'Period',
+  DV_PROPORTION: "Proportion",
+  DV_DATE: "Period",
+  DV_TIME: "Period",
+}
+
+
 export const dataValueLabelMapper = (dataValue:string) => displayableNodeTextTable[dataValue] || `RM type not supported ${dataValue}`
+
+export const dataValueFHIRMapper = (dataValue:string) => {
+  if (isBranchNode(dataValue))
+     return 'BackboneElement'
+   else
+     return openEHR2FHIRDatatypeTable[dataValue] || `(FHIR mapping not supported) ${dataValue}`
+}
+
+export const dataValueIntervalFHIRMapper = (dataValue:string) => openEHRInterval2FHIRTable[dataValue] || `RM Interval type not supported ${dataValue}`
+
 
 export const formatOccurrences = (f: TemplateNode, techDisplay :boolean = true) => {
 

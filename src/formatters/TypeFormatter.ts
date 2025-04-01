@@ -1,7 +1,7 @@
 import { DocBuilder } from "../DocBuilder";
 import { TemplateNode } from "../TemplateNodes";
 import { ExportFormat, FormatElementFn } from "./DocFormatter";
-// import { xmind } from "./XmindFormatter";
+import { fshl } from "./FshLogicalModelFormatter";
 import { adoc } from "./AdocFormatter";
 import { xmind } from "./XmindFormatter";
 
@@ -12,8 +12,9 @@ export const formatDvCodedText = (docBuilder: DocBuilder, f: TemplateNode): void
   switch (docBuilder.config.exportFormat) {
     case ExportFormat.xmind:
       fn = xmind.dvTypes.formatDvCodedText
-      break
+      break;
     case ExportFormat.fshl:
+      fn = fshl.dvTypes.formatDvCodedText
       break;
     default:
       fn = adoc.dvTypes.formatDvCodedText
@@ -51,6 +52,7 @@ export const formatDvText = (docBuilder: DocBuilder, f: TemplateNode): void => {
       fn = xmind.dvTypes.formatDvText
       break;
     case ExportFormat.fshl:
+      fn = fshl.dvTypes.formatDvText
       break;
     default:
       fn = adoc.dvTypes.formatDvText
@@ -82,7 +84,9 @@ export const formatDvQuantity = (docBuilder: DocBuilder, f: TemplateNode): void 
 
   switch (docBuilder.config.exportFormat) {
     case ExportFormat.xmind:
+     break;
     case ExportFormat.fshl:
+      fn = fshl.dvTypes.formatDvQuantity
       break;
     default:
       fn = adoc.dvTypes.formatDvQuantity
@@ -115,7 +119,9 @@ export const formatDvDefault = (docBuilder: DocBuilder, f: TemplateNode): void =
 
   switch (docBuilder.config.exportFormat) {
     case ExportFormat.xmind:
+      break;
     case ExportFormat.fshl:
+      fn = fshl.dvTypes.formatDvDefault
       break;
     default:
       fn = adoc.dvTypes.formatDvDefault

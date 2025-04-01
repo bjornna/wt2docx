@@ -29,6 +29,8 @@ export type Config = {
   exportFormat: ExportFormat
   defaultLang: string
   regenerateWtx: WtxRegenerate
+  fhirBaseUrl: string
+  entriesOnly: boolean
 }
 
 
@@ -53,8 +55,9 @@ const defaultConfig: Config = {
   inFileDir: './templates',
   exportFormat: ExportFormat.adoc,
   defaultLang: 'en',
-  regenerateWtx: WtxRegenerate.never
-
+  regenerateWtx: WtxRegenerate.whenStale,
+  fhirBaseUrl: 'http://openehr.org',
+  entriesOnly: true,
 };
 
  export function importConfig(path: string): Config {
@@ -64,7 +67,6 @@ const defaultConfig: Config = {
      return { ...defaultConfig, ...localConfig } ;
    }
    else
-     console.log(`Config file at ${path} not found - using internal default settings. `)
      return defaultConfig;
  }
 

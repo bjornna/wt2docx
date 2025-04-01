@@ -2,7 +2,7 @@ import { TemplateNode } from '../TemplateNodes';
 import { fetchADArchetype } from './openEProvenance';
 import { DocBuilder } from '../DocBuilder';
 import path from 'path';
-import fs from 'fs-extra';
+import fs from 'fs';
 import { Config, WtxRegenerate } from '../BuilderConfig';
 
 export type ResolvedTemplateFiles = {
@@ -60,6 +60,8 @@ export const resolveTemplateFiles = (config: Config): ResolvedTemplateFiles => {
         f.custodian_organisation = custodian_organisation
         f.revision = revision
       }
+    //  console.log('F Augmented ', f.original_namespace)
+
     })
 
 }
@@ -69,8 +71,8 @@ export const saveWtxFile = async (dBuilder: DocBuilder) => {
   const outFile = dBuilder.resolvedTemplateFiles.wtxOutPath
   const wtString: string = JSON.stringify(dBuilder.wt, (key, value) => key==='parentNode' ? undefined : value)
 
-  fs.outputFileSync(outFile, wtString);
-  console.log(`\n Extended web template saved : ${outFile}`)
+  fs.writeFileSync(outFile, wtString);
+  console.log(`\n Exported : ${outFile}`)
 }
 
 

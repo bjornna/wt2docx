@@ -11,8 +11,8 @@ const CreateDocbook = (src: string): void => {
   const docbookContent = asciidoctor.convert(src, { backend: "docbook" });
 
   // Write DocBook content to a temporary file
-  const fs = require('fs-extra');
-  fs.outputFileSync(`./tmp/tmpDocbook.xml`, docbookContent.toString());
+  const fs = require('fs');
+  fs.writeFileSync(`./tmp/tmpDocbook.xml`, docbookContent.toString());
 
 }
 

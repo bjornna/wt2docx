@@ -33,4 +33,7 @@ tmp/
 out/hidden/
 templates/hidden/
 config/hidden/
-secrets/
+
+/out/tmp.md
+config/freshehr.json
+!/config/freshehr.json
