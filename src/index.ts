@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import yargs from 'yargs';
 import ora from 'ora';
-import  * as fs from 'fs';
+import  * as fs from 'node:fs';
 import { DocBuilder } from './DocBuilder';
-import { Config, importConfig } from './BuilderConfig';
+import { type Config, importConfig } from './BuilderConfig';
 import { ExportFormat } from './formatters/DocFormatter';
 
 const args = yargs.options({
@@ -30,6 +30,6 @@ if (fs.existsSync(config.inFilePath)) {
   const docBuilder : DocBuilder = new DocBuilder(JSON.parse(inDoc), config);
 }
 else
-  console.log('The input file does not exist:' + config.inFilePath);
+  console.log(`The input file does not exist:${config.inFilePath}`);
 
 spinner.stop();

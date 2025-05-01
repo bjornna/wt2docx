@@ -1,7 +1,7 @@
-import { DocBuilder } from "../DocBuilder";
+import type { DocBuilder } from "../DocBuilder";
 import  {adoc }from "./AdocFormatter"
 import {xmind } from "./XmindFormatter"
-import { TemplateNode } from "../TemplateNodes";
+import type { TemplateNode } from "../TemplateNodes";
 import { formatOccurrences } from "../TemplateTypes";
 import { docx, pdf } from "./PanDocFormatter";
 import { fshl } from './FshLogicalModelFormatter';
@@ -298,7 +298,7 @@ export const formatAnnotations= (dBuilder: DocBuilder, f: TemplateNode) =>{
   switch (dBuilder.config.exportFormat) {
     case ExportFormat.fshl:
       break;
-    case ExportFormat.xmind:
+    //case ExportFormat.xmind:
     default:
       fn = adoc.formatAnnotations
       break
@@ -326,12 +326,12 @@ export const formatUnsupported= (dBuilder: DocBuilder, f: TemplateNode) =>{
 
 export const formatOccurrencesText= (dBuilder: DocBuilder, f: TemplateNode) => {
   const occurrencesText = formatRawOccurrencesText(dBuilder,f);
-  return occurrencesText ? `**${occurrencesText}**` : ``;
+  return occurrencesText ? `**${occurrencesText}**` : "";
 }
 
 export const formatRawOccurrencesText= (dBuilder: DocBuilder, f: TemplateNode) => {
   const occurrencesText = formatOccurrences(f, dBuilder.config.displayTechnicalOccurrences);
-  return occurrencesText ? `[${occurrencesText}]` : ``;
+  return occurrencesText ? `[${occurrencesText}]` : "";
 }
 
 
